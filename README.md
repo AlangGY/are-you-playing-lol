@@ -3,7 +3,7 @@ Riot Developers Portal에서 제공하는 API를 활용하여, 소환사명 검�
 
 # 요구사항
 예시 링크: https://www.op.gg/summoners/kr/%EB%B2%9A%20%EA%BD%83%20%EC%86%8C%20%EB%82%98-%ED%95%98%EC%96%97%EA%B3%A0%EC%98%88%EC%81%A8/ingame
-(![image](https://github.com/user-attachments/assets/5d8c9f60-d7b6-4021-8d1f-721dc32ba0f3)
+![image](https://github.com/user-attachments/assets/5d8c9f60-d7b6-4021-8d1f-721dc32ba0f3)
 
 
 - 소환사명/태그를 통해서 검색할 수 있어야 한다.
@@ -20,9 +20,17 @@ Riot Developers Portal에서 제공하는 API를 활용하여, 소환사명 검�
 
 ## 개발 팁
 
-**게임 에셋(캐릭터 이미지 등) 얻는 방법:** https://developer.riotgames.com/docs/lol#data-dragon_data-assets
+- API key 발급방법:
+RIOT의 API key는 세 종류가 있습니다.
+- DEVELOPMENT API KEYS: 로그인시 바로 발급이 가능하나, 각 토큰은 생명주기는 24시간입니다.
+- PERSONAL API KEYS: 별도 요청이 필요하나, 특별한 검토없이 바로 승인받아 발급 받을 수 있습니다. 일부 api(TOURNAMENT API) 사용에는 제한이 있습니다.
+- PRODUCTION API KEYS: 별도 요청 및 검토 과정이 필요합니다. 실제 사업화 되어 운영될 서비스의 경우에만 승인 된다고 합니다. TOURNAMENT API를 포함한 모든 api를 사용할 수 있습니다.
 
-**riot API:** https://developer.riotgames.com/apis
+참고: https://developer.riotgames.com/docs/portal#web-apis_api-keys
+
+- **게임 에셋(캐릭터 이미지 등) 얻는 방법:** https://developer.riotgames.com/docs/lol#data-dragon_data-assets
+
+- **riot API:** https://developer.riotgames.com/apis
 
 1. ACCOUNT-V1
     - 특정 유저의 관련 정보를 반환한다.
