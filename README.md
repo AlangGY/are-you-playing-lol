@@ -2,7 +2,7 @@
 Riot Developers Portal에서 제공하는 API를 활용하여, 소환사명 검색을 통해 해당 소환사가 현재 실시간으로 진행하고 있는 게임 정보를 확인할 수 있는 웹 어플리케이션을 개발한다.
 
 # 요구사항
-예시 링크: OP.GG 벚 꽃 소 나#하얗고예쁨 - Live Game - League of Legends
+예시 링크: https://www.op.gg/summoners/kr/%EB%B2%9A%20%EA%BD%83%20%EC%86%8C%20%EB%82%98-%ED%95%98%EC%96%97%EA%B3%A0%EC%98%88%EC%81%A8/ingame
 (![image](https://github.com/user-attachments/assets/5d8c9f60-d7b6-4021-8d1f-721dc32ba0f3)
 
 
