@@ -1,4 +1,4 @@
-import { IsString, validate } from 'class-validator';
+import { IsString, validate, validateSync } from 'class-validator';
 
 export class GetCurrentGameRequestDto {
   @IsString()
@@ -7,7 +7,7 @@ export class GetCurrentGameRequestDto {
   static create(puuid: string) {
     const getCurrentGameRequestDto = new GetCurrentGameRequestDto();
     getCurrentGameRequestDto.puuid = puuid;
-    validate(getCurrentGameRequestDto);
+    validateSync(getCurrentGameRequestDto);
     return getCurrentGameRequestDto;
   }
 }

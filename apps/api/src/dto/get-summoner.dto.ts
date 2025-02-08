@@ -1,4 +1,4 @@
-import { IsString, validate } from 'class-validator';
+import { IsString, validateSync } from 'class-validator';
 
 export class GetSummonerRequestDto {
   @IsString()
@@ -11,7 +11,7 @@ export class GetSummonerRequestDto {
     const getSummonerRequestDto = new GetSummonerRequestDto();
     getSummonerRequestDto.gameName = gameName;
     getSummonerRequestDto.tagLine = tagLine;
-    validate(getSummonerRequestDto);
+    validateSync(getSummonerRequestDto);
     return getSummonerRequestDto;
   }
 }
@@ -23,7 +23,7 @@ export class GetSummonerResponseDto {
   static create(puuid: string) {
     const getSummonerResponseDto = new GetSummonerResponseDto();
     getSummonerResponseDto.puuid = puuid;
-    validate(getSummonerResponseDto);
+    validateSync(getSummonerResponseDto);
     return getSummonerResponseDto;
   }
 }
