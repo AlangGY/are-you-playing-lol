@@ -1,12 +1,12 @@
 import { useState } from "react";
+import { Model } from "@are-you-playing-lol/common-interfaces";
 import { checkCurrentGame } from "./fetcher";
 import "./global.css";
 
 function App() {
   const [gameName, setGameName] = useState("");
   const [tagLine, setTagLine] = useState("");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [gameObject, setGameObject] = useState<Record<string, any>>({});
+  const [gameInfo, setGameInfo] = useState<Model.GameInfo | null>(null);
 
   const handleGameNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGameName(e.target.value);
@@ -23,7 +23,7 @@ function App() {
         tagLine,
       },
     });
-    setGameObject(response);
+    setGameInfo(response);
   };
 
   return (
@@ -39,7 +39,7 @@ function App() {
         </label>
 
         <button onClick={handleCheckCurrentGame}>Check Current Game</button>
-        <div>{JSON.stringify(gameObject)}</div>
+        <div>{JSON.stringify(gameInfo)}</div>
       </div>
     </>
   );

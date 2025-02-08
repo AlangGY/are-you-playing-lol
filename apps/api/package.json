@@ -22,6 +22,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
   },
   "dependencies": {
+    "@are-you-playing-lol/common-interfaces": "workspace:*",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^10.0.0",

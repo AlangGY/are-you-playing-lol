@@ -1,6 +1,7 @@
+import { Dto } from '@are-you-playing-lol/common-interfaces';
 import { IsString, validateSync } from 'class-validator';
 
-export class GetSummonerRequestDto {
+export class GetSummonerRequestDto implements Dto.GetSummonerRequestDto {
   @IsString()
   gameName: string;
 
@@ -16,7 +17,7 @@ export class GetSummonerRequestDto {
   }
 }
 
-export class GetSummonerResponseDto {
+export class GetSummonerResponseDto implements Dto.GetSummonerResponseDto {
   @IsString()
   puuid: string;
 
