@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
   GetSummonerRequestDto,
@@ -33,6 +33,12 @@ export class AppService {
         },
       );
 
+      if (!response.ok) {
+        throw new NotFoundException(
+          `Summoner ${getSummonerRequestDto.gameName} ${getSummonerRequestDto.tagLine} not found`,
+        );
+      }
+
       const data = await response.json();
       return GetSummonerResponseDto.create(data.puuid);
     } catch (error) {
@@ -51,6 +57,12 @@ export class AppService {
           },
         },
       );
+
+      if (!response.ok) {
+        throw new NotFoundException(
+          `Current game of ${getCurrentGameRequestDto.puuid} not found`,
+        );
+      }
 
       const data = await response.json();
       return data;
