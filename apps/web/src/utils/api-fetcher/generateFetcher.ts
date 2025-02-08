@@ -162,7 +162,7 @@ export function generateFetcher<
       if (res.status && errorHandlers[res.status]) {
         return errorHandlers[res.status](res);
       } else {
-        throw res;
+        throw new Error(JSON.stringify(await res.json()));
       }
     }
 
