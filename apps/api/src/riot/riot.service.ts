@@ -5,6 +5,7 @@ import {
   CurrentGameNotFoundException,
   SummonerNotFoundException,
 } from '../exceptions/exceptions';
+import { GetCurrentGameResponseDto } from '../dto/get-current-game.dto';
 
 @Injectable()
 export class RiotService {
@@ -61,7 +62,7 @@ export class RiotService {
       }
 
       const data = await response.json();
-      return data;
+      return GetCurrentGameResponseDto.create(data);
     } catch (error) {
       Logger.debug(error);
       throw error;
