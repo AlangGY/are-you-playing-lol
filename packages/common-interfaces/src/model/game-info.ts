@@ -8,8 +8,8 @@ export interface GameInfo {
   gameMode: string;
   gameType: string;
   gameQueueConfigId: number;
-  redTeam: Summoner[];
-  blueTeam: Summoner[];
+  teamRed: Summoner[];
+  teamBlue: Summoner[];
   observers: Observer;
   platformId: string;
   bannedChampions: BannedChampion[];

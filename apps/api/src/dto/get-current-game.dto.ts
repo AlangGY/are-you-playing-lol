@@ -5,7 +5,7 @@ import {
   IsString,
   validateSync,
 } from 'class-validator';
-import { Dto, Model } from '@are-you-playing-lol/common-interfaces';
+import type { Dto, Model } from '@are-you-playing-lol/common-interfaces';
 export class GetCurrentGameRequestDto implements Dto.GetCurrentGameRequestDto {
   @IsString()
   gameName: string;
@@ -47,7 +47,10 @@ export class GetCurrentGameResponseDto
   gameQueueConfigId: number;
 
   @IsArray()
-  participants: Model.Summoner[];
+  teamBlue: Model.Summoner[];
+
+  @IsArray()
+  teamRed: Model.Summoner[];
 
   @IsObject()
   observers: Model.Observer;
@@ -67,7 +70,8 @@ export class GetCurrentGameResponseDto
     getCurrentGameResponseDto.bannedChampions = gameInfo.bannedChampions;
     getCurrentGameResponseDto.gameLength = gameInfo.gameLength;
     getCurrentGameResponseDto.gameQueueConfigId = gameInfo.gameQueueConfigId;
-    getCurrentGameResponseDto.participants = gameInfo.participants;
+    getCurrentGameResponseDto.teamBlue = gameInfo.teamBlue;
+    getCurrentGameResponseDto.teamRed = gameInfo.teamRed;
     getCurrentGameResponseDto.observers = gameInfo.observers;
     getCurrentGameResponseDto.platformId = gameInfo.platformId;
     getCurrentGameResponseDto.gameStartTime = gameInfo.gameStartTime;

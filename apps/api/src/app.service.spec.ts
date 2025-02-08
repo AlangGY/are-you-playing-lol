@@ -33,7 +33,19 @@ describe('AppService', () => {
       const mockGameName = 'test-gameName';
       const mockTagLine = 'test-tagLine';
       const mockCurrentGame = {
-        gameId: 'test-gameId',
+        gameId: 1234567890,
+        mapId: 1234567890,
+        gameMode: 'test-gameMode',
+        gameType: 'test-gameType',
+        gameQueueConfigId: 1234567890,
+        participants: [],
+        observers: {
+          encryptionKey: 'test-encryptionKey',
+        },
+        platformId: 'test-platformId',
+        bannedChampions: [],
+        gameStartTime: 1234567890,
+        gameLength: 1234567890,
       };
 
       mockRiotService.searchSummoner.mockResolvedValue({

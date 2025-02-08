@@ -1,11 +1,11 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GetSummonerResponseDto } from '../dto/get-summoner.dto';
 import {
   CurrentGameNotFoundException,
   SummonerNotFoundException,
 } from '../exceptions/exceptions';
-import { GetCurrentGameResponseDto } from '../dto/get-current-game.dto';
+import { SpectatorV5ResponseDto } from './riot.dto';
 
 @Injectable()
 export class RiotService {
@@ -46,7 +46,7 @@ export class RiotService {
     }
   }
 
-  async checkCurrentGame(puuid: string) {
+  async checkCurrentGame(puuid: string): Promise<SpectatorV5ResponseDto> {
     try {
       const response = await fetch(
         `${this.riotApiKrBaseUrl}/lol/spectator/v5/active-games/by-summoner/${puuid}`,
@@ -62,7 +62,7 @@ export class RiotService {
       }
 
       const data = await response.json();
-      return GetCurrentGameResponseDto.create(data);
+      return data;
     } catch (error) {
       Logger.debug(error);
       throw error;
