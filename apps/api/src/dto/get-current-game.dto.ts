@@ -2,11 +2,15 @@ import { IsString, validate, validateSync } from 'class-validator';
 
 export class GetCurrentGameRequestDto {
   @IsString()
-  puuid: string;
+  gameName: string;
 
-  static create(puuid: string) {
+  @IsString()
+  tagLine: string;
+
+  static create(gameName: string, tagLine: string) {
     const getCurrentGameRequestDto = new GetCurrentGameRequestDto();
-    getCurrentGameRequestDto.puuid = puuid;
+    getCurrentGameRequestDto.gameName = gameName;
+    getCurrentGameRequestDto.tagLine = tagLine;
     validateSync(getCurrentGameRequestDto);
     return getCurrentGameRequestDto;
   }

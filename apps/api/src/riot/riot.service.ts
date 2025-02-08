@@ -1,6 +1,10 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GetSummonerResponseDto } from '../dto/get-summoner.dto';
+import {
+  CurrentGameNotFoundException,
+  SummonerNotFoundException,
+} from '../exceptions/exceptions';
 
 @Injectable()
 export class RiotService {
@@ -30,9 +34,7 @@ export class RiotService {
       );
 
       if (!response.ok) {
-        throw new NotFoundException(
-          `Summoner ${gameName} ${tagLine} not found`,
-        );
+        throw new SummonerNotFoundException(gameName, tagLine);
       }
 
       const data = await response.json();
@@ -55,7 +57,7 @@ export class RiotService {
       );
 
       if (!response.ok) {
-        throw new NotFoundException(`Current game of ${puuid} not found`);
+        throw CurrentGameNotFoundException.createByPuuid(puuid);
       }
 
       const data = await response.json();
