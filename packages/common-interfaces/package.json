@@ -1,0 +1,32 @@
+{
+  "name": "@are-you-playing-lol/common-interfaces",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "공통으로 사용되는 인터페이스들을 정의한 패키지입니다.",
+  "scripts": {
+    "build": "rollup -c",
+    "type-check": "tsc --noEmit"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.34.5",
+    "rollup-plugin-dts": "^6.1.1",
+    "typescript": "^5.7.3"
+  },
+  "author": "Alang Kim",
+  "license": "ISC"
+}
