@@ -12,21 +12,15 @@ export class AppController {
     return 'Hello World!';
   }
 
-  @Get('summoner')
-  async getSummoner(
+  @Get('current-game')
+  async getCurrentGame(
     @Query('gameName') gameName: string,
     @Query('tagLine') tagLine: string,
   ) {
-    const getSummonerRequestDto = GetSummonerRequestDto.create(
+    const getCurrentGameRequestDto = GetCurrentGameRequestDto.create(
       gameName,
       tagLine,
     );
-    return this.appService.searchSummoner(getSummonerRequestDto);
-  }
-
-  @Get('current-game')
-  async getCurrentGame(@Query('puuid') puuid: string) {
-    const getCurrentGameRequestDto = GetCurrentGameRequestDto.create(puuid);
     return this.appService.checkCurrentGame(getCurrentGameRequestDto);
   }
 }
