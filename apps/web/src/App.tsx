@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { checkCurrentGame, findSummonerUuid } from "./fetcher";
+import { checkCurrentGame } from "./fetcher";
 import "./global.css";
 
 function App() {
   const [gameName, setGameName] = useState("");
   const [tagLine, setTagLine] = useState("");
-  const [puuid, setPuuid] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [gameObject, setGameObject] = useState<Record<string, any>>({});
 
@@ -17,24 +16,11 @@ function App() {
     setTagLine(e.target.value);
   };
 
-  const handlePuuidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPuuid(e.target.value);
-  };
-
-  const handleFindSummonerUuid = async () => {
-    const response = await findSummonerUuid({
-      queryParam: {
-        gameName,
-        tagLine,
-      },
-    });
-    setPuuid(response.puuid);
-  };
-
   const handleCheckCurrentGame = async () => {
     const response = await checkCurrentGame({
       queryParam: {
-        puuid,
+        gameName,
+        tagLine,
       },
     });
     setGameObject(response);
@@ -51,11 +37,7 @@ function App() {
           <span>tagLine</span>
           <input type="text" value={tagLine} onChange={handleTagLineChange} />
         </label>
-        <label>
-          <span>puuid</span>
-          <input type="text" value={puuid} onChange={handlePuuidChange} />
-        </label>
-        <button onClick={handleFindSummonerUuid}>Find Summoner UUID</button>
+
         <button onClick={handleCheckCurrentGame}>Check Current Game</button>
         <div>{JSON.stringify(gameObject)}</div>
       </div>
