@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { RiotModule } from './riot/riot.module';
+import { Mapper } from './mapper/mapper';
+import { RiotService } from './riot/riot.service';
 
 @Module({
   imports: [
@@ -12,6 +14,6 @@ import { RiotModule } from './riot/riot.module';
     RiotModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Mapper],
 })
 export class AppModule {}

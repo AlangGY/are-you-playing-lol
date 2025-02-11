@@ -17,9 +17,16 @@ export default [
     plugins: [
       typescript({
         tsconfig: "./tsconfig.json",
-        declaration: true,
-        declarationDir: "./dist",
+        declaration: false,
       }),
     ],
+  },
+  {
+    input: "src/index.ts",
+    output: {
+      file: "dist/types/index.d.ts",
+      format: "esm",
+    },
+    plugins: [dts()],
   },
 ];

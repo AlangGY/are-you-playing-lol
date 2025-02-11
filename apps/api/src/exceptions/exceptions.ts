@@ -23,3 +23,21 @@ export class CurrentGameNotFoundException extends NotFoundException {
     );
   }
 }
+
+export class ChampionNotFoundException extends NotFoundException {
+  constructor(championId: number) {
+    super(`champion ${championId} not found`);
+  }
+}
+
+export class SummonerSpellNotFoundException extends NotFoundException {
+  constructor(summonerSpellId: number) {
+    super(`summoner spell ${summonerSpellId} not found`);
+  }
+}
+
+export class PerkNotFoundException extends NotFoundException {
+  constructor(perkId: number) {
+    super(`perk ${perkId} not found`);
+  }
+}

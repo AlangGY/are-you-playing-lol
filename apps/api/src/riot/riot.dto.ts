@@ -41,3 +41,100 @@ export interface BannedChampion {
   teamId: number;
   pickTurn: number;
 }
+
+export interface ChampionJson {
+  type: 'champion';
+  format: string;
+  version: string;
+  data: Record<string, ChampionData>;
+}
+
+export interface ChampionData {
+  version: string;
+  id: string;
+  key: string;
+  name: string;
+  title: string;
+  blurb: string;
+  info: ChampionInfo;
+  image: ChampionImage;
+  tags: string[];
+  partype: string;
+  stats: ChampionStats;
+}
+
+export interface ChampionInfo {
+  attack: number;
+  defense: number;
+  magic: number;
+  difficulty: number;
+}
+
+export interface ChampionImage {
+  full: string;
+  sprite: string;
+  group: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+export interface ChampionStats {
+  hp: number;
+  hpperlevel: number;
+  mp: number;
+  mpperlevel: number;
+  movespeed: number;
+  armor: number;
+  armorperlevel: number;
+  spellblock: number;
+  spellblockperlevel: number;
+  attackrange: number;
+  hpregen: number;
+  hpregenperlevel: number;
+  mpregen: number;
+  mpregenperlevel: number;
+  crit: number;
+  critperlevel: number;
+  attackdamage: number;
+  attackdamageperlevel: number;
+  attackspeedperlevel: number;
+  attackspeed: number;
+}
+
+export interface SummonerSpellJson {
+  type: 'summoner';
+  format: string;
+  version: string;
+  data: Record<string, SummonerSpellData>;
+}
+
+export interface SummonerSpellData {
+  id: string;
+  name: string;
+  description: string;
+  key: string;
+}
+
+export interface RunesReforgedJson
+  extends Array<{
+    id: number;
+    key: string;
+    icon: string;
+    name: string;
+    slots: RuneSlot[];
+  }> {}
+
+export interface RuneSlot {
+  runes: Rune[];
+}
+
+export interface Rune {
+  id: number;
+  key: string;
+  icon: string;
+  name: string;
+  shortDesc: string;
+  longDesc: string;
+}

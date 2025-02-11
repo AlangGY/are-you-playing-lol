@@ -12,7 +12,10 @@ import { Mapper } from './mapper/mapper';
 
 @Injectable()
 export class AppService {
-  constructor(private riotService: RiotService) {}
+  constructor(
+    private riotService: RiotService,
+    private mapper: Mapper,
+  ) {}
 
   async checkCurrentGame({
     gameName,
@@ -24,7 +27,7 @@ export class AppService {
         summoner.puuid,
       );
 
-      return Mapper.SpectatorV5ResponseDtoToGetCurrentGameResponseDto(
+      return this.mapper.SpectatorV5ResponseDtoToGetCurrentGameResponseDto(
         currentGame,
       );
     } catch (error) {

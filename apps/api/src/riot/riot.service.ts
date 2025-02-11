@@ -5,7 +5,12 @@ import {
   CurrentGameNotFoundException,
   SummonerNotFoundException,
 } from '../exceptions/exceptions';
-import { SpectatorV5ResponseDto } from './riot.dto';
+import {
+  ChampionJson,
+  RunesReforgedJson,
+  SpectatorV5ResponseDto,
+  SummonerSpellJson,
+} from './riot.dto';
 
 @Injectable()
 export class RiotService {
@@ -13,6 +18,7 @@ export class RiotService {
   private riotApiKrBaseUrl: string;
   private lolDataDragonBaseUrl: string;
   private riotApiKey: string;
+  private locale = 'ko_KR';
 
   constructor(private configService: ConfigService) {
     this.riotApiKey = this.configService.get('RIOT_API_KEY');
@@ -69,19 +75,48 @@ export class RiotService {
     }
   }
 
-  // 이후 사용
-  private async getAssetBaseUrl() {
-    const latestVersion = await this.getLatestVersion();
-
-    return `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR`;
+  async getAssetBaseUrl() {
+    return `${this.lolDataDragonBaseUrl}/cdn`;
   }
 
-  // 이후 사용
+  // TODO: 캐시 처리
+  async getAssetVersionedBaseUrl() {
+    const assetBaseUrl = await this.getAssetBaseUrl();
+    const latestVersion = await this.getLatestVersion();
+
+    return `${assetBaseUrl}/${latestVersion}`;
+  }
+
+  // TODO: 캐시 처리
   private async getLatestVersion() {
     const versionResponse = await fetch(
       `${this.lolDataDragonBaseUrl}/api/versions.json`,
     );
     const data = await versionResponse.json();
     return data[0];
+  }
+
+  // TODO: 캐시 처리
+  async getChampionJson(): Promise<ChampionJson> {
+    return this.getDataFile<ChampionJson>('champion.json');
+  }
+
+  // TODO: 캐시 처리
+  async getSummonerSpellJson(): Promise<SummonerSpellJson> {
+    return this.getDataFile<SummonerSpellJson>('summoner.json');
+  }
+
+  // TODO: 캐시 처리
+  async getRunesReforgedJson(): Promise<RunesReforgedJson> {
+    return this.getDataFile<RunesReforgedJson>('runesReforged.json');
+  }
+
+  private async getDataFile<T>(fileName: string): Promise<T> {
+    const assetVersionedBaseUrl = await this.getAssetVersionedBaseUrl();
+    const response = await fetch(
+      `${assetVersionedBaseUrl}/data/${this.locale}/${fileName}`,
+    );
+    const data = await response.json();
+    return data;
   }
 }
