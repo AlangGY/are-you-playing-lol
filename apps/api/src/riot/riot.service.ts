@@ -98,29 +98,23 @@ export class RiotService {
 
   // TODO: 캐시 처리
   async getChampionJson(): Promise<ChampionJson> {
-    const assetVersionedBaseUrl = await this.getAssetVersionedBaseUrl();
-    const response = await fetch(
-      `${assetVersionedBaseUrl}/data/${this.locale}/champion.json`,
-    );
-    const data = await response.json();
-    return data;
+    return this.getDataFile<ChampionJson>('champion.json');
   }
 
   // TODO: 캐시 처리
   async getSummonerSpellJson(): Promise<SummonerSpellJson> {
-    const assetVersionedBaseUrl = await this.getAssetVersionedBaseUrl();
-    const response = await fetch(
-      `${assetVersionedBaseUrl}/data/${this.locale}/summoner.json`,
-    );
-    const data = await response.json();
-    return data;
+    return this.getDataFile<SummonerSpellJson>('summoner.json');
   }
 
   // TODO: 캐시 처리
   async getRunesReforgedJson(): Promise<RunesReforgedJson> {
+    return this.getDataFile<RunesReforgedJson>('runesReforged.json');
+  }
+
+  private async getDataFile<T>(fileName: string): Promise<T> {
     const assetVersionedBaseUrl = await this.getAssetVersionedBaseUrl();
     const response = await fetch(
-      `${assetVersionedBaseUrl}/data/${this.locale}/runesReforged.json`,
+      `${assetVersionedBaseUrl}/data/${this.locale}/${fileName}`,
     );
     const data = await response.json();
     return data;
