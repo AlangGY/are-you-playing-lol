@@ -41,36 +41,28 @@ export class Mapper {
 
     const teamRed = participants
       .filter((participant) => participant.teamId === 100)
-      .map((participant) => {
-        const { championId, spell1Id, spell2Id, ...rest } = participant;
-        return {
-          ...rest,
-          champion: this.convertChampionIdToChampionModel(championId),
-          spells: [
-            this.convertSummonerSpellIdToSummonerSpellModel(spell1Id),
-            this.convertSummonerSpellIdToSummonerSpellModel(spell2Id),
-          ],
-        };
-      });
+      .map((participant) => this.convertSummonerToSummonerModel(participant));
     const teamBlue = participants
       .filter((participant) => participant.teamId === 200)
-      .map((participant) => {
-        const { championId, spell1Id, spell2Id, ...rest } = participant;
-        return {
-          ...rest,
-          champion: this.convertChampionIdToChampionModel(championId),
-          spells: [
-            this.convertSummonerSpellIdToSummonerSpellModel(spell1Id),
-            this.convertSummonerSpellIdToSummonerSpellModel(spell2Id),
-          ],
-        };
-      });
+      .map((participant) => this.convertSummonerToSummonerModel(participant));
 
     return GetCurrentGameResponseDto.create({
       ...rest,
       teamRed,
       teamBlue,
     });
+  }
+
+  private convertSummonerToSummonerModel(summoner: Summoner): Model.Summoner {
+    const { championId, spell1Id, spell2Id, ...rest } = summoner;
+    return {
+      ...rest,
+      champion: this.convertChampionIdToChampionModel(championId),
+      spells: [
+        this.convertSummonerSpellIdToSummonerSpellModel(spell1Id),
+        this.convertSummonerSpellIdToSummonerSpellModel(spell2Id),
+      ],
+    };
   }
 
   private convertChampionIdToChampionModel(championId: number): Model.Champion {
