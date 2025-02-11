@@ -17,16 +17,9 @@ export function Player({ summoner }: PlayerProps) {
       />
 
       <div className="flex items-center gap-2">
-        <img
-          src={`/images/perk/${summoner.perks.perkStyle}.png`}
-          alt="perk"
-          className="w-4 h-4"
-        />
-        <img
-          src={`/images/perk/${summoner.perks.perkSubStyle}.png`}
-          alt="perk"
-          className="w-4 h-4"
-        />
+        {summoner.spells.map((spell) => (
+          <img src={spell.image.square} alt="perk" className="w-4 h-4" />
+        ))}
       </div>
 
       <div className="flex items-center gap-1 text-nowrap">
