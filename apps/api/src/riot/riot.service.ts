@@ -7,6 +7,7 @@ import {
 } from '../exceptions/exceptions';
 import {
   ChampionJson,
+  RunesReforgedJson,
   SpectatorV5ResponseDto,
   SummonerSpellJson,
 } from './riot.dto';
@@ -74,6 +75,10 @@ export class RiotService {
   }
 
   async getAssetBaseUrl() {
+    return `${this.lolDataDragonBaseUrl}/cdn`;
+  }
+
+  async getAssetVersionedBaseUrl() {
     const latestVersion = await this.getLatestVersion();
 
     return `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}`;
@@ -100,6 +105,15 @@ export class RiotService {
     const latestVersion = await this.getLatestVersion();
     const response = await fetch(
       `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR/summoner.json`,
+    );
+    const data = await response.json();
+    return data;
+  }
+
+  async getRunesReforgedJson(): Promise<RunesReforgedJson> {
+    const latestVersion = await this.getLatestVersion();
+    const response = await fetch(
+      `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR/runesReforged.json`,
     );
     const data = await response.json();
     return data;

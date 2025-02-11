@@ -16,10 +16,24 @@ export function Player({ summoner }: PlayerProps) {
         className="w-8 h-8 rounded-full"
       />
 
-      <div className="flex items-center gap-2">
-        {summoner.spells.map((spell) => (
-          <img src={spell.image.square} alt="perk" className="w-4 h-4" />
-        ))}
+      <div className="flex gap-2">
+        <div className="flex flex-col items-center gap-2">
+          {summoner.spells.map((spell) => (
+            <img src={spell.image.square} alt="perk" className="w-4 h-4" />
+          ))}
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <img
+            src={summoner.perks.perkStyle.image.square}
+            alt="perk"
+            className="w-4 h-4"
+          />
+          <img
+            src={summoner.perks.perkSubStyle.image.square}
+            alt="perk"
+            className="w-4 h-4"
+          />
+        </div>
       </div>
 
       <div className="flex items-center gap-1 text-nowrap">

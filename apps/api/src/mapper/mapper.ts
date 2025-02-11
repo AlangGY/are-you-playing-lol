@@ -2,6 +2,8 @@ import type { Model } from '@are-you-playing-lol/common-interfaces';
 import { GetCurrentGameResponseDto } from '../dto/get-current-game.dto';
 import {
   ChampionJson,
+  Perks,
+  RunesReforgedJson,
   SpectatorV5ResponseDto,
   Summoner,
   SummonerSpellJson,
@@ -14,21 +16,33 @@ export class Mapper {
   private initialized = false;
   private championJson: ChampionJson | null = null;
   private summonerSpellJson: SummonerSpellJson | null = null;
+  private runesReforgedJson: RunesReforgedJson | null = null;
   private assetBaseUrl: string | null = null;
+  private assetVersionedBaseUrl: string | null = null;
   constructor(private riotService: RiotService) {}
 
   async init() {
     if (this.initialized) {
       return;
     }
-    const [championJson, assetBaseUrl, summonerSpellJson] = await Promise.all([
+    const [
+      championJson,
+      assetBaseUrl,
+      assetVersionedBaseUrl,
+      summonerSpellJson,
+      runesReforgedJson,
+    ] = await Promise.all([
       this.riotService.getChampionJson(),
       this.riotService.getAssetBaseUrl(),
+      this.riotService.getAssetVersionedBaseUrl(),
       this.riotService.getSummonerSpellJson(),
+      this.riotService.getRunesReforgedJson(),
     ]);
     this.championJson = championJson;
     this.assetBaseUrl = assetBaseUrl;
+    this.assetVersionedBaseUrl = assetVersionedBaseUrl;
     this.summonerSpellJson = summonerSpellJson;
+    this.runesReforgedJson = runesReforgedJson;
     this.initialized = true;
   }
 
@@ -62,12 +76,13 @@ export class Mapper {
         this.convertSummonerSpellIdToSummonerSpellModel(spell1Id),
         this.convertSummonerSpellIdToSummonerSpellModel(spell2Id),
       ],
+      perks: this.convertPerksToPerksModel(summoner.perks),
     };
   }
 
   private convertChampionIdToChampionModel(championId: number): Model.Champion {
     const championJson = this.championJson;
-    const assetBaseUrl = this.assetBaseUrl;
+    const assetBaseUrl = this.assetVersionedBaseUrl;
 
     const champion = Object.values(championJson.data).find(
       (champion) => champion.key === championId.toString(),
@@ -89,7 +104,7 @@ export class Mapper {
     summonerSpellId: number,
   ): Model.SummonerSpell {
     const summonerSpellJson = this.summonerSpellJson;
-    const assetBaseUrl = this.assetBaseUrl;
+    const assetBaseUrl = this.assetVersionedBaseUrl;
 
     const summonerSpell = Object.values(summonerSpellJson.data).find(
       (summonerSpell) => summonerSpell.key === summonerSpellId.toString(),
@@ -106,5 +121,40 @@ export class Mapper {
     };
 
     return spellModel;
+  }
+
+  private convertPerksToPerksModel(perks: Perks): Model.Perks {
+    const runesReforgedJson = this.runesReforgedJson;
+    const assetBaseUrl = this.assetBaseUrl;
+
+    const perkStyle = runesReforgedJson.find(
+      (perk) => perk.id === perks.perkStyle,
+    );
+
+    const perkSubStyle = runesReforgedJson.find(
+      (perk) => perk.id === perks.perkSubStyle,
+    );
+
+    const perkModel: Model.Perk = {
+      id: perkStyle.id,
+      name: perkStyle.name,
+      image: {
+        square: `${assetBaseUrl}/img/${perkStyle.icon}`,
+      },
+    };
+
+    const perkSubModel: Model.Perk = {
+      id: perkSubStyle.id,
+      name: perkSubStyle.name,
+      image: {
+        square: `${assetBaseUrl}/img/${perkSubStyle.icon}`,
+      },
+    };
+
+    return {
+      perkIds: perks.perkIds,
+      perkStyle: perkModel,
+      perkSubStyle: perkSubModel,
+    };
   }
 }
