@@ -5,7 +5,11 @@ import {
   CurrentGameNotFoundException,
   SummonerNotFoundException,
 } from '../exceptions/exceptions';
-import { SpectatorV5ResponseDto } from './riot.dto';
+import {
+  ChampionJson,
+  SpectatorV5ResponseDto,
+  SummonerSpellJson,
+} from './riot.dto';
 
 @Injectable()
 export class RiotService {
@@ -69,19 +73,35 @@ export class RiotService {
     }
   }
 
-  // 이후 사용
-  private async getAssetBaseUrl() {
+  async getAssetBaseUrl() {
     const latestVersion = await this.getLatestVersion();
 
-    return `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR`;
+    return `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}`;
   }
 
-  // 이후 사용
   private async getLatestVersion() {
     const versionResponse = await fetch(
       `${this.lolDataDragonBaseUrl}/api/versions.json`,
     );
     const data = await versionResponse.json();
     return data[0];
+  }
+
+  async getChampionJson(): Promise<ChampionJson> {
+    const latestVersion = await this.getLatestVersion();
+    const response = await fetch(
+      `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR/champion.json`,
+    );
+    const data = await response.json();
+    return data;
+  }
+
+  async getSummonerSpellJson(): Promise<SummonerSpellJson> {
+    const latestVersion = await this.getLatestVersion();
+    const response = await fetch(
+      `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR/summoner.json`,
+    );
+    const data = await response.json();
+    return data;
   }
 }
