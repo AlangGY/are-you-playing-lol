@@ -19,7 +19,12 @@ export function Player({ summoner }: PlayerProps) {
       <div className="flex gap-2">
         <div className="flex flex-col items-center gap-2">
           {summoner.spells.map((spell) => (
-            <img src={spell.image.square} alt="perk" className="w-4 h-4" />
+            <img
+              key={spell.id}
+              src={spell.image.square}
+              alt="perk"
+              className="w-4 h-4"
+            />
           ))}
         </div>
         <div className="flex flex-col items-center gap-2">
