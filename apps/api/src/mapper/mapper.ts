@@ -9,7 +9,12 @@ import {
   SummonerSpellJson,
 } from '../riot/riot.dto';
 import { RiotService } from '../riot/riot.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  ChampionNotFoundException,
+  PerkNotFoundException,
+  SummonerSpellNotFoundException,
+} from '../exceptions/exceptions';
 
 @Injectable()
 export class Mapper {
@@ -22,28 +27,34 @@ export class Mapper {
   constructor(private riotService: RiotService) {}
 
   async init() {
-    if (this.initialized) {
-      return;
+    try {
+      if (this.initialized) {
+        return;
+      }
+      const [
+        championJson,
+        assetBaseUrl,
+        assetVersionedBaseUrl,
+        summonerSpellJson,
+        runesReforgedJson,
+      ] = await Promise.all([
+        this.riotService.getChampionJson(),
+        this.riotService.getAssetBaseUrl(),
+        this.riotService.getAssetVersionedBaseUrl(),
+        this.riotService.getSummonerSpellJson(),
+        this.riotService.getRunesReforgedJson(),
+      ]);
+      this.championJson = championJson;
+      this.assetBaseUrl = assetBaseUrl;
+      this.assetVersionedBaseUrl = assetVersionedBaseUrl;
+      this.summonerSpellJson = summonerSpellJson;
+      this.runesReforgedJson = runesReforgedJson;
+      this.initialized = true;
+    } catch (error) {
+      Logger.error(error);
+      this.initialized = false;
+      throw error;
     }
-    const [
-      championJson,
-      assetBaseUrl,
-      assetVersionedBaseUrl,
-      summonerSpellJson,
-      runesReforgedJson,
-    ] = await Promise.all([
-      this.riotService.getChampionJson(),
-      this.riotService.getAssetBaseUrl(),
-      this.riotService.getAssetVersionedBaseUrl(),
-      this.riotService.getSummonerSpellJson(),
-      this.riotService.getRunesReforgedJson(),
-    ]);
-    this.championJson = championJson;
-    this.assetBaseUrl = assetBaseUrl;
-    this.assetVersionedBaseUrl = assetVersionedBaseUrl;
-    this.summonerSpellJson = summonerSpellJson;
-    this.runesReforgedJson = runesReforgedJson;
-    this.initialized = true;
   }
 
   async SpectatorV5ResponseDtoToGetCurrentGameResponseDto(
@@ -87,6 +98,11 @@ export class Mapper {
     const champion = Object.values(championJson.data).find(
       (champion) => champion.key === championId.toString(),
     );
+
+    if (!champion) {
+      throw new ChampionNotFoundException(championId);
+    }
+
     const championModel: Model.Champion = {
       id: champion.id,
       key: champion.key,
@@ -109,6 +125,10 @@ export class Mapper {
     const summonerSpell = Object.values(summonerSpellJson.data).find(
       (summonerSpell) => summonerSpell.key === summonerSpellId.toString(),
     );
+
+    if (!summonerSpell) {
+      throw new SummonerSpellNotFoundException(summonerSpellId);
+    }
 
     const spellModel: Model.SummonerSpell = {
       id: summonerSpell.id,
@@ -134,6 +154,14 @@ export class Mapper {
     const perkSubStyle = runesReforgedJson.find(
       (perk) => perk.id === perks.perkSubStyle,
     );
+
+    if (!perkStyle) {
+      throw new PerkNotFoundException(perks.perkStyle);
+    }
+
+    if (!perkSubStyle) {
+      throw new PerkNotFoundException(perks.perkSubStyle);
+    }
 
     const perkModel: Model.Perk = {
       id: perkStyle.id,
