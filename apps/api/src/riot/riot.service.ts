@@ -18,6 +18,7 @@ export class RiotService {
   private riotApiKrBaseUrl: string;
   private lolDataDragonBaseUrl: string;
   private riotApiKey: string;
+  private locale = 'ko_KR';
 
   constructor(private configService: ConfigService) {
     this.riotApiKey = this.configService.get('RIOT_API_KEY');
@@ -78,12 +79,15 @@ export class RiotService {
     return `${this.lolDataDragonBaseUrl}/cdn`;
   }
 
+  // TODO: 캐시 처리
   async getAssetVersionedBaseUrl() {
+    const assetBaseUrl = await this.getAssetBaseUrl();
     const latestVersion = await this.getLatestVersion();
 
-    return `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}`;
+    return `${assetBaseUrl}/${latestVersion}`;
   }
 
+  // TODO: 캐시 처리
   private async getLatestVersion() {
     const versionResponse = await fetch(
       `${this.lolDataDragonBaseUrl}/api/versions.json`,
@@ -92,28 +96,31 @@ export class RiotService {
     return data[0];
   }
 
+  // TODO: 캐시 처리
   async getChampionJson(): Promise<ChampionJson> {
-    const latestVersion = await this.getLatestVersion();
+    const assetVersionedBaseUrl = await this.getAssetVersionedBaseUrl();
     const response = await fetch(
-      `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR/champion.json`,
+      `${assetVersionedBaseUrl}/data/${this.locale}/champion.json`,
     );
     const data = await response.json();
     return data;
   }
 
+  // TODO: 캐시 처리
   async getSummonerSpellJson(): Promise<SummonerSpellJson> {
-    const latestVersion = await this.getLatestVersion();
+    const assetVersionedBaseUrl = await this.getAssetVersionedBaseUrl();
     const response = await fetch(
-      `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR/summoner.json`,
+      `${assetVersionedBaseUrl}/data/${this.locale}/summoner.json`,
     );
     const data = await response.json();
     return data;
   }
 
+  // TODO: 캐시 처리
   async getRunesReforgedJson(): Promise<RunesReforgedJson> {
-    const latestVersion = await this.getLatestVersion();
+    const assetVersionedBaseUrl = await this.getAssetVersionedBaseUrl();
     const response = await fetch(
-      `${this.lolDataDragonBaseUrl}/cdn/${latestVersion}/data/ko_KR/runesReforged.json`,
+      `${assetVersionedBaseUrl}/data/${this.locale}/runesReforged.json`,
     );
     const data = await response.json();
     return data;
