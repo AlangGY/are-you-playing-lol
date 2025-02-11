@@ -6,12 +6,14 @@ import "./global.css";
 
 function App() {
   const [gameInfo, setGameInfo] = useState<Model.GameInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCheckCurrentGame = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     try {
       e.preventDefault();
+      setIsLoading(true);
       const formData = new FormData(e.target as HTMLFormElement);
       const gameName = formData.get("gameName") as string | null;
       const tagLine = formData.get("tagLine") as string | null;
@@ -35,6 +37,8 @@ function App() {
         return;
       }
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,12 +65,14 @@ function App() {
 
           <button
             type="submit"
-            className="bg-amber-500 text-white p-2 rounded-md"
+            className="p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLoading}
           >
             검색
           </button>
         </form>
-        <div className="w-full bg-[#1a1a1a] text-white rounded-lg">
+        <div className="w-full rounded-lg text-center">
+          {isLoading && <div>Loading...</div>}
           {gameInfo && <GameBoard gameInfo={gameInfo} />}
         </div>
       </div>
