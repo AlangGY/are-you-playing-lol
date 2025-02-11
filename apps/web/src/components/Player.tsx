@@ -11,7 +11,7 @@ export function Player({ summoner }: PlayerProps) {
   return (
     <div className="grid grid-cols-[40px_200px_150px_120px_auto] items-center py-2 hover:bg-[#2a2a2a]">
       <img
-        src={`/images/champion/${summoner.championId}.png`}
+        src={summoner.champion.image.square}
         alt="champion"
         className="w-8 h-8 rounded-full"
       />

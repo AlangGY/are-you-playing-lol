@@ -1,3 +1,4 @@
+import { Champion } from "./champion";
 import { Perks } from "./perks";
 
 export interface Summoner {
@@ -5,7 +6,7 @@ export interface Summoner {
   teamId: number;
   spell1Id: number;
   spell2Id: number;
-  championId: number;
+  champion: Champion;
   profileIconId: number;
   riotId: string;
   bot: boolean;
