@@ -11,7 +11,7 @@ export function GameBoard({ gameInfo }: GameBoardProps) {
   const { teamBlue, teamRed, gameLength, gameType } = gameInfo;
 
   return (
-    <div className="w-full bg-[#1a1a1a] text-white rounded-lg p-4">
+    <div className="w-full bg-zinc-900 text-white rounded-lg p-4 shadow">
       <MatchInfo gameType={gameType} initialGameLength={gameLength} />
 
       <TeamTable teamName="블루" colorVariant="blue">

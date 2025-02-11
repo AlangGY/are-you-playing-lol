@@ -23,9 +23,11 @@ export function MatchInfo({ gameType, initialGameLength }: MatchInfoProps) {
   };
 
   return (
-    <div className="flex justify-between py-3 border-b border-[#333]">
+    <div className="flex gap-4 items-center py-3 border-b border-gray-700">
       <div>{gameType}</div>
-      <div>{formatGameTime(currentGameLength)}</div>
+      <span className="text-sm text-gray-400">
+        플레이 시간: {formatGameTime(currentGameLength)}
+      </span>
     </div>
   );
 }
