@@ -12,7 +12,8 @@ export function Player({ summoner }: PlayerProps) {
     <div className="grid grid-cols-[40px_200px_150px_120px_auto] items-center py-2 hover:bg-[#2a2a2a]">
       <img
         src={summoner.champion.image.square}
-        alt="champion"
+        alt={summoner.champion.name}
+        title={summoner.champion.name}
         className="w-8 h-8 rounded-full"
       />
 
@@ -22,7 +23,8 @@ export function Player({ summoner }: PlayerProps) {
             <img
               key={spell.id}
               src={spell.image.square}
-              alt="perk"
+              alt={spell.name}
+              title={spell.name}
               className="w-4 h-4"
             />
           ))}
@@ -30,12 +32,14 @@ export function Player({ summoner }: PlayerProps) {
         <div className="flex flex-col items-center gap-2">
           <img
             src={summoner.perks.perkStyle.image.square}
-            alt="perk"
+            alt={summoner.perks.perkStyle.name}
+            title={summoner.perks.perkStyle.name}
             className="w-4 h-4"
           />
           <img
             src={summoner.perks.perkSubStyle.image.square}
-            alt="perk"
+            alt={summoner.perks.perkSubStyle.name}
+            title={summoner.perks.perkSubStyle.name}
             className="w-4 h-4"
           />
         </div>
